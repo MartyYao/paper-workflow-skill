@@ -9,6 +9,24 @@ description: >
 
 # Paper Workflow — 8 阶段论文编排器
 
+## 可用工具
+
+论文流程中涉及 Python 数据处理时，使用独立 conda 环境 `research`：
+
+```bash
+# 方式 1：直接调 pyresearch（推荐，已隔离 PYTHONPATH）
+pyresearch script.py
+pyresearch -c "print('hello')"
+
+# 方式 2：终端工具
+terminal("pyresearch -c \"import pandas as pd; ...\"")
+```
+
+环境位置：`/opt/homebrew/Caskroom/miniforge/base/envs/research/`
+包：pandas 3.0.3, numpy 2.4.6, scipy, matplotlib, openpyxl, requests, jupyter
+
+> ⚠️ 此环境与 Hermes 的 Python 3.11 venv 隔离。通过 `pyresearch` wrapper 调用时会自动清空 PYTHONPATH，避免 3.11 的 numpy .so 污染。
+
 ## 核心设计
 
 本 skill 是论文写作的**总调度器**，不替代任何现有工具，而是：
@@ -82,20 +100,12 @@ description: >
 
 ## 会话启动协议（强制执行）
 
-**每个新会话的第一步**，读取项目仪表盘：
+**每个新会话的第一步**，读取项目仪表盘和跨 Agent 记忆。
+
+### 步骤 1：项目仪表盘
 
 > ⚠️ **iCloud 同步延迟**：Obsidian vault 在 iCloud 上。程序化创建的文件夹可能不会立即出现在 Obsidian 侧边栏。如果用户说"没看到文件夹"，先用 `ls` 验证磁盘上确实存在，告知用户等待同步或手动在 Finder 中访问该文件夹触发同步。
-
-```
-read_file("论文/<项目名>/00-项目仪表盘.md")
-```
-
-从仪表盘提取：
-- 当前阶段和状态
-- 已完成工作和产出
-- 本轮待完成任务
-- 上次会话的决策和待办
-- 关键文件路径
+```\nread_file("论文/<项目名>/00-项目仪表盘.md")\n```\n\n从仪表盘提取：\n- 当前阶段和状态\n- 已完成工作和产出\n- 本轮待完成任务\n- 上次会话的决策和待办\n- 关键文件路径\n\n### 步骤 2：跨 Agent 记忆（如存在）\n\n检查 Obsidian vault 根目录下 `agent memory/` 文件夹：\n- `agent memory/论文-<项目关键词>/` → 读取，获取论文状态、关键结果、待办\n- `agent memory/方法/` → 仅在遇到 Stata/数据问题时读取\n- `agent memory/设计/` → 仅在选题/研究设计阶段读取\n\n**路由规则**：只读文件夹名匹配当前任务的目录，不读全量。不确定时不读，等任务明确后再加载。
 
 然后直接进入对应阶段，**不要重新确认用户意图**（仪表盘就是意图记录）。
 
@@ -323,6 +333,30 @@ E. 经济后果
 ### 阶段 4：数据构建
 
 **定位**：do 文件组织 + 数据质量检查。使用现有 Stata do 文件体系。
+
+#### Python 预处理（可选，视数据源类型而定）
+
+部分数据任务用 Python（research env）比 Stata 更高效，尤其是：
+
+| 任务 | 适用场景 | Python 方案 |
+|------|---------|------------|
+| **多源数据 merge** | CSMAR 各表格式不一致（Stkcd str6/long/double） | pandas merge + astype 统一类型 |
+| **Excel 原始数据清洗** | 手工收集/统计局的表格数据 | pandas + openpyxl |
+| **PDF 表格提取** | 政策文件/统计年鉴中的结构化数据 | 配合 MinerU 产出做后处理 |
+| **API 数据拉取** | 从天眼查/企查查/政府开放平台获取 | requests + pandas |
+| **文件格式转换** | CSV → dta 或 dta 转 parquet | pandas to_stata / pyreadstat |
+
+调用方式：
+```bash
+# Hermes 中执行
+terminal("pyresearch scripts/merge_csmar.py", workdir="<项目工作文件夹>")
+# 或直接
+pyresearch -c "import pandas as pd; df = pd.read_stata(...); ..."
+```
+
+产出写入 `04-数据/数据构造/` 下的子文件夹，与 Stata 的 dta 文件同目录。
+
+#### Stata 主流程
 
 流程：
 1. 原始数据导入（CSMAR/Wind/手工）

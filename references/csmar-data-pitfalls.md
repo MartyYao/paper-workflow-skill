@@ -53,7 +53,56 @@ replace varname = r(p1) if varname < r(p1) & !missing(varname)
 replace varname = r(p99) if varname > r(p99) & !missing(varname)
 ```
 
-## 6. 合并后的样本量检验
+## 7. 超大 CSV 的分块处理
+
+CSMAR/CNRDS 的批发数据（如专利引用 15.9M 行）不能一次性加载到 Stata 或 Python。
+
+### Python 分块
+
+```python
+reader = pd.read_csv(csv_path, usecols=required_cols, dtype=str, chunksize=500000)
+chunks = []
+for i, chunk in enumerate(reader):
+    chunks.append(chunk)
+    if i >= max_chunks:  # ~10M rows enough for firm-year aggregation
+        break
+df = pd.concat(chunks)
+```
+
+### Stata 分块
+
+```stata
+* 先在 Python 中聚合成 firm-year (10 万行量级)
+* 再 import delimited 到 Stata
+import delimited "/tmp/aggregated.csv", clear
+```
+
+## 8. Stkcd 携带括号、逗号或空格
+
+某些 CSMAR/CNRDS 子库的股票代码包含：`[000001]`、`[601238]`（带方括号），或 `000001，601318`（多代码，中文逗号分隔）。
+
+```python
+# Python: 批量清理
+df['Stkcd'] = df['Stkcd'].str.replace('[', '', regex=False).str.replace(']', '', regex=False)
+
+# 处理多代码行（爆炸展开）
+def clean_stkcd(val):
+    parts = str(val).replace('，', ',').split(',')
+    return [p.strip() for p in parts if len(p.strip()) == 6]
+
+df['Stkcd_list'] = df['Stkcd'].apply(clean_stkcd)
+# 对多代码行做 explode 展开后汇总
+```
+
+```stata
+* Stata: 清理方括号
+replace Stkcd = subinstr(Stkcd, "[", "", .)
+replace Stkcd = subinstr(Stkcd, "]", "", .)
+```
+
+**注意**：方括号可能不是半角 `[` 而是全角 `［`，检查后再替换。
+
+## 9. 合并后的样本量检验
 
 每次 merge 后打印样本量：
 ```stata
