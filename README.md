@@ -70,6 +70,16 @@ pi -p "请按 paper-workflow skill 指导我完成阶段 X"
 
 也可将 SKILL.md 作为上下文直接粘贴给 Pi。
 
+### Kimi Code
+
+```bash
+git clone https://github.com/MartyYao/paper-workflow-skill.git
+cd paper-workflow-skill
+kimi -p "请按 paper-workflow skill 指导我完成阶段 X"
+```
+
+也可将 SKILL.md 作为上下文直接粘贴给 Kimi Code。
+
 ## 依赖
 
 本技能是**方法论框架**，不包含 Python 代码或可执行脚本。运行依赖：
@@ -140,6 +150,7 @@ paper-workflow-skill/
 | **Claude Code** | `CLAUDE.md` | 自动加载（项目目录下） | ✅ |
 | **Codex** | `AGENTS.md` | `--context` 或项目指令 | ✅ |
 | **Pi** | 直接读 `SKILL.md` | `-p` 参数或上下文粘贴 | ✅ |
+| **Kimi Code** | 直接读 `SKILL.md` | `kimi -p` 非交互模式 | ✅ |
 | **OpenClaw** | `AGENTS.md` | 同 Codex | — |
 
 ## 方法论来源
