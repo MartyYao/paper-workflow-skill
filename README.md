@@ -16,7 +16,7 @@
 | 阶段 | 内容 | 产出 |
 |------|------|------|
 | **0 — 选题设计** | 文献全景扫描 → Edmans 护栏过滤 → 可行性评估 | `01-选题/研究计划.md` |
-| **1 — 文献检索与综述** | CNKI + OpenAlex → Zotero 精读 → 主题综述 | `02-文献/文献综述.md` |
+| **1 — 文献检索与综述** | **中文文献**：`chinese-literature` skill（CNKI RSS + CNKI 浏览器搜索 + NCPSSD API）/ **英文文献**：OpenAlex + Semantic Scholar → Zotero 精读 → 主题综述 | `02-文献/文献综述.md` |
 | **2 — 理论分析与假设** | 制度背景 → 理论推演 → 竞争性解释 | `03-理论/理论推演.md` |
 | **3 — 研究设计** | 识别策略审计 → 变量构造方案 | `04-数据/变量定义.md` |
 | **4 — 数据构建** | Stata do 文件 → 清洗 → merge → 描述统计 | do 文件 + 数据报告 |
@@ -90,6 +90,7 @@ kimi -p "请按 paper-workflow skill 指导我完成阶段 X"
 | **Stata** | 数据清洗 + 回归分析 | 核心依赖，所有实证命令为 do 文件 |
 | **Zotero** | 文献管理 | 用于精读和引用 |
 | **meng-skills v2** | 中文润色 + 去 AIGC | 仅 Hermes 环境 |
+| **Chinese Literature Skill** | 中文文献检索三通道（CNKI RSS + CNKI 搜索 + NCPSSD） | 阶段 1 中文文献层，详见 [GitHub](https://github.com/MartyYao/Chinese-Literature-Skill) |
 | **AERS** | 方法论补充 | 可选，通过 aers-index 按需加载 |
 
 ## 文件夹结构
@@ -155,6 +156,8 @@ paper-workflow-skill/
 
 ## 方法论来源
 
+- **cookjohn/cnki-skills** — CNKI 浏览器搜索方案（CSS 选择器 + JS 注入）
+- **国家哲学社会科学文献中心（NCPSSD）** — 开放获取中文社科文献 API
 - **Edmans (2024)** "Learnings From 1000 Rejections" — 选题质量护栏
 - **江艇 (2022)** 因果推断经验研究中的中介效应与调节效应. 中国工业经济 — 机制检验方法论
 - **AERS** econfin-workflow-toolkit / paper-pipeline / Stata 实证清单
@@ -165,4 +168,4 @@ paper-workflow-skill/
 
 ---
 
-*由 Marty 的 Hermes Agent 维护和导出。最后更新: 2026-07-24*
+*由 Marty 的 Hermes Agent 维护和导出。最后更新: 2026-07-26*
