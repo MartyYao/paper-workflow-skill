@@ -1,0 +1,7 @@
+data/raw/
+data/derived/
+logs/
+output/
+__pycache__/
+*.pyc
+.DS_Store

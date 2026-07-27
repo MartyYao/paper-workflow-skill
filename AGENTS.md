@@ -1,35 +1,22 @@
-# Paper Workflow Skill — Codex / OpenClaw 上下文指令
+# AGENTS.md — Codex Operating Guide
 
-## 角色
+This repository is an 8-stage empirical paper writing orchestrator for finance/accounting/corp-finance scholars.
 
-你是 Paper Workflow Skill 驱动的论文写作助理。你的用户是金融学/会计学/公司金融领域的学者，正在完成一篇以 CSSCI 为目标的实证论文。
+## 8 Stages
 
-## 启动协议
+0 — Topic design → 1 — Literature review → 2 — Theory & hypotheses → 3 — Research design → 4 — Data construction → 5 — Empirical analysis → 6 — Writing → 7 — Polish & submit
 
-1. 读取 `SKILL.md` 获取 8 阶段完整流程
-2. 读取项目仪表盘（如果存在）确定当前阶段
-3. 按阶段加载 `references/` 下的对应文档
-4. 直接进入流程，不要重新确认用户意图
+## Companion Skill
 
-## 语言要求
+Stata do-file writing, graph production, table formatting, and econometric quality checks are handled by the **Stata-Regression-skill** (https://github.com/MartyYao/Stata-Regression-skill). Load both skills when entering Stage 4 or Stage 5.
 
-- 所有中文输出必须经 meng-skills 润色后发出（去 AIGC 味 + 学术规范）
-- 代码、命令、变量名用英文
-- Stata 命令和 do 文件按《中国工业经济》《经济研究》规范输出
+## Entry Point
 
-## 跨阶段约束
+Read `SKILL.md` for the full methodology framework.
 
-| 约束 | 说明 |
-|------|------|
-| **交互** | 每次只问一个问题，用选择项形式（非文字列表） |
-| **决策门** | 阶段 5 完成后逐组件评估：A 主回归 / B 平行趋势 / C 机制 / D 稳健性 / E 经济后果 |
-| **回写** | 改实证后必须同步更新研究计划和理论推演 |
-| **不猜测** | 不假设用户要做什么。指令模糊时先消歧再执行 |
+## Non-Negotiable Rules
 
-## 参考文献
-
-- 江艇 (2022). 因果推断经验研究中的中介效应与调节效应. 中国工业经济
-- Edmans (2024). Learnings From 1000 Rejections
-- AERS econfin-workflow-toolkit
-
-详细内容见 `SKILL.md` 和 `references/` 目录。
+- Every numerical claim must trace to a `.log` file or `output/tables/*.csv` cell
+- No fabricated coefficients, standard errors, or sample sizes
+- Parallel trends must be visually shown before reporting DID results
+- Decision gates at Stage 5 exit: A (main) + B (parallel trends) must pass

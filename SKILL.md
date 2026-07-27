@@ -14,18 +14,14 @@ description: >
 论文流程中涉及 Python 数据处理时，使用独立 conda 环境 `research`：
 
 ```bash
-# 方式 1：直接调 pyresearch（推荐，已隔离 PYTHONPATH）
-pyresearch script.py
-pyresearch -c "print('hello')"
 
-# 方式 2：终端工具
-terminal("pyresearch -c \"import pandas as pd; ...\"")
+`python3 -c "import pandas as pd; ..."`
 ```
 
 环境位置：`/opt/homebrew/Caskroom/miniforge/base/envs/research/`
 包：pandas 3.0.3, numpy 2.4.6, scipy, matplotlib, openpyxl, requests, jupyter
 
-> ⚠️ 此环境与 Hermes 的 Python 3.11 venv 隔离。通过 `pyresearch` wrapper 调用时会自动清空 PYTHONPATH，避免 3.11 的 numpy .so 污染。
+
 
 ## 核心设计
 
@@ -166,13 +162,18 @@ terminal("pyresearch -c \"import pandas as pd; ...\"")
 
 ### 流程
 
-1. **中文文献**：读取 CNKI RSS 收集结果 → Zotero 去重 → 分类
-2. **英文文献**：academic-literature-collector 当期 + OpenAlex 追查
-3. **精读**：按 AERS 的 literature-review 方法论（PRISMA 2020）筛选
-4. **综述撰写**：按主题组织（非作者名单堆砌），存入 `02-文献/文献综述.md`
+中文文献通过 `chinese-literature` 技能（三通道策略）完成：
+
+1. **中文文献（被动）**：加载 `chinese-literature` → 运行 CNKI RSS 采集（`scripts/cnki-rss.py`）→ 获取 13 本顶刊最新论文
+2. **中文文献（主动·CNKI）**：加载 `chinese-literature` → 按用户需求运行 CNKI 浏览器搜索（JS 注入）→ 含 CSSCI/EI/北大核心高级检索过滤、期刊收录查询、论文详情提取
+3. **中文文献（主动·NCPSSD）**：加载 `chinese-literature` → 运行 NCPSSD API 搜索（`scripts/ncpssd-search.py`）→ 开放获取文献，零认证零验证码，全学科覆盖
+4. **英文文献**：`academic-literature-collector` 当期 + OpenAlex 追查
+5. **精读**：按 AERS 的 literature-review 方法论（PRISMA 2020）筛选
+6. **综述撰写**：按主题组织（非作者名单堆砌），存入 `02-文献/文献综述.md`
 
 检查点：
-- [ ] 中文覆盖知网核心期刊近 5 年
+- [ ] 中文覆盖知网核心期刊近 5 年（RSS 监控 + 主动搜索双轨）
+- [ ] CSSCI 期刊来源过滤已使用（高级检索 `#CSSCI` 复选框）
 - [ ] 英文覆盖对应英文文献
 - [ ] 每篇精读有笔记（Obsidian 双向链接）
 - [ ] 综述明确了研究空白（为阶段 2 理论分析铺路）
@@ -316,7 +317,7 @@ E. 经济后果
 **定位**：识别策略审计 + 变量构造方案。
 
 从 AERS 加载方法论补充（通过 aers-index）：
-- DID：平行趋势检验、bacondecomp、honestdid、csdid（staggered 时）
+- [ ] DID：平行趋势检验、bacondecomp、honestdid、csdid（staggered 时）— **具体 Stata 命令和诊断方法见 `stata-regression` 技能**
 - IV：弱 IV 检验、过度识别、排除限制论证
 - 其他方法按需加载
 
@@ -334,6 +335,8 @@ E. 经济后果
 
 **定位**：do 文件组织 + 数据质量检查。使用现有 Stata do 文件体系。
 
+> **Stata 编码规范**：进入本阶段时，先加载 `stata-regression` 技能获取 do 文件模板、编码规范、输出标准。写 do 文件前查路由表，打开对应 reference 文件，不要凭记忆拼命令。
+
 #### Python 预处理（可选，视数据源类型而定）
 
 部分数据任务用 Python（research env）比 Stata 更高效，尤其是：
@@ -349,9 +352,7 @@ E. 经济后果
 调用方式：
 ```bash
 # Hermes 中执行
-terminal("pyresearch scripts/merge_csmar.py", workdir="<项目工作文件夹>")
 # 或直接
-pyresearch -c "import pandas as pd; df = pd.read_stata(...); ..."
 ```
 
 产出写入 `04-数据/数据构造/` 下的子文件夹，与 Stata 的 dta 文件同目录。
@@ -376,7 +377,9 @@ pyresearch -c "import pandas as pd; df = pd.read_stata(...); ..."
 
 ### 阶段 5：实证分析
 
-**定位**：按标准经济学论文顺序执行。使用现有 Stata do 文件。
+**定位**：按标准经济学论文顺序执行。使用现有 Stata do 文件体系。
+
+> **Stata 技术底层**：进入本阶段时先加载 `stata-regression` 技能。回归模板和出图模板从该技能的 reference 文件获取，计量检查清单用于执行后验证。本阶段负责「用正确的方法跑回归」，`stata-regression` 负责「回归应该怎么写才规范」。
 
 **分析命令文件夹结构（强制执行）**：
 
@@ -387,7 +390,7 @@ pyresearch -c "import pandas as pd; df = pd.read_stata(...); ..."
 Obsidian: <vault>/论文/<项目名>/04-数据/分析命令/
 ```
 
-> 在 Obsidian 目录下放置 README.md（含文件清单和运行方式），do 文件本体放本地。log 和 CSV 输出自动生成在本地 `分析命令/`。
+> 在 Obsidian 目录下放置 README.md（含文件清单和运行方式），do 文件本体放本地。log 和 CSV 输出自动生成在本地 `分析命令/`。**Do 文件编码规范（header/version/logging/esttab 选项）见 `stata-regression/references/do-file-standards.md`。**
 
 **执行顺序**（严格按此顺序，不可调换）：
 
@@ -403,43 +406,9 @@ Obsidian: <vault>/论文/<项目名>/04-数据/分析命令/
 9. 异质性分析 V1+V2（产权/市场化/SRDI）
 10. 经济后果 V1+V2（dev×post）
 
-**实证表格格式规范（强制执行）**：
+**实证表格格式规范**：表格输出标准（小数位、括号内 t 值、esttab 选项）→ **加载 `stata-regression` 技能，查 `references/table-standards.md`**。
 
-- [ ] **所有实证结果保留 4 位小数**：系数、t 值、p 值、R² 等所有数值强制保留 4 位小数（描述统计除外，保留 3 位）
-- [ ] **括号内展示 t 值，不展示标准误**：所有回归表格括号内为 t 统计量，非标准误。`esttab` 使用 `cells(b(star fmt(4)) t(fmt(4)))` 或等同配置
-- [ ] **不省略控制变量**：所有回归表格必须列出全部控制变量的系数和标准误，不得只报告 post 系数
-- [ ] **固定效应标注**：每列表格下方标注是否包含企业 FE、年份 FE、省份聚类
-- [ ] **样本量 + Adj R²**：每列必须报告 N 和 Adjusted R²
-- [ ] **主回归三列制**：每个 DV 至少跑三列——(1) post only，(2) +企业控制变量，(3) +省级控制变量
-- [ ] **V1/V2 分表**：如果 DV 有多个版本（如 V1/V2），分成两张独立表格，不要拼成超宽表
-- [ ] **描述统计含省级变量**：Table 1 必须包含企业+省级全部控制变量，保留三位小数
-- [ ] **相关性分析必须出现**：放在描述统计之后、主回归之前
-- [ ] **稳健性检验为独立表**：竞争性政策、政府词频、PSM、安慰剂检验各自独立成表
-- [ ] **所有回归 V1+V2 并行**：主回归、机制、稳健性、异质性、经济后果、IV、平行趋势——所有回归必须同时跑 V1 和 V2，**不可只跑 V1**
-- [ ] **绝对量变量取对数**：fiscal_ratio（地方财政收入，万元级，均值 ~111,382）→ `ln_fiscal_ratio = ln(fiscal_ratio)`；其他大值域变量同理
-- [ ] **描述统计和回归控制变量集必须一致**：省级控制变量同时出现在 Table 1 和所有 reg 的 `$prov_C` 中
-
-**Stata 技术坑（阶段 4-5 常见）**：
-
-| 坑 | 表现 | 修复 |
-|----|------|------|
-| `corr` 变量缺失值不同 | 「no observations」r(2000) | 改用 `pwcorr ..., obs` 做 pairwise |
-| `preserve/restore` 在循环内溢出 | 「already preserved」r(621) | 循环内不用 preserve；每次 gen/drop |
-| `esttab` 首次输出 CSV 报「file not found」 | 无害 | 忽略，文件会生成 |
-| **安慰剂检验 500 轮 `reghdfe` 跑太慢** | 耗时数小时 | ≤100 轮或降至省年面板 |
-| **大额绝对量变量未取对数** | 系数极小（5e-06），难读 | `gen ln_x = ln(x)` 后放入回归 |
-| **回归表用 ✓ 省略控制变量** | 投稿退回 | 逐行列出系数和 SE；仅 FE 可用 ✓ |
-| **Stata 因子变量不接受负值** | `i.rel_time` → r(452) | `gen rel_pos = rel_time + 5`，`ib4.rel_pos` |
-| **`esttab keep()` 不匹配因子名** | `keep(*.rel_time)` 找不到 | 改 `keep(*.rel_time_pos)` |
-| **`read_file` + `write_file` 污染 do 文件** | 行号前缀 `123|456|` 被写入 | **绝不用** `read_file` 返回值直接 `write_file`；`skill_manage` 或干净的 `write_file` 从纯字符串创建 |
-| **`use working_data.dta, clear` 后丢失临时变量** | `ln_fiscal_ratio not found` r(111) | 重载后立即 `gen ln_fiscal_ratio = ln(fiscal_ratio)` |
-| **多期 DID 事件研究误删未处理省份** | `if !missing(rel_time)` 丢弃对照组 | `replace rel_time = -5 if missing(rel_time)` 保留为基期 |
-| **处理强度用二元组间比较** | 限定子样本后聚类数从31降至15-20省，Stata报警「missing F statistic」；控制组定义模糊 | 用连续得分（treat_score1）全样本回归，不限定 treated 子样本 |
-| **机制检验用固定特征变量做被解释变量** | Step 2 (X→M)：pc_any/SOE 等企业固定特征不受 DID 冲击影响 | 三步法要求 M 必须随 X 变化。固定特征 → 改交互项或更换 M 为时变指标 |
-| **经济后果/机制用二元分组建模** | suspect_rd 虚拟变量分组不如连续变量灵敏 | 优先用连续 DV（如 RDIN）直接回归，避免人为设阈值 |
-| **处理强度用二元组间比较** | 限定子样本后聚类数从31降至15-20省，Stata报警「missing F statistic」；控制组定义模糊（副厅vs正处/挂牌？） | 用连续得分 treat_score1 全样本回归，取代 d_zhengting/d_admin_gov 的二元比较 |
-| **机制检验用固定特征变量做被解释变量** | Step 2 (X→M)：pc_any/SOE 等企业层面时不变变量不受 DID 政策冲击影响，回归不显著 | 三步法要求 M 必须随 X 变化。固定特征 → 改交互项（M 作为调节变量），或更换 M 为时变指标 |
-| **经济后果/机制用二元分组建模** | suspect_rd 虚拟变量分组回归不如连续变量回归灵敏 | 优先用连续 DV（如 RDIN）直接回归，避免人为设阈值导致信息损失 |
+**Stata 技术坑**：完整的 Stata 编码规范、出图标准、表格格式、计量检查清单、24 条陷阱速查 → **加载 `stata-regression` 技能**。本阶段仅保留论文层面的坑（CSMAR 合并细节、V1/V2 策略等）。
 
 **机制检验三步法**（参考：江艇 2022，中国工业经济）：
 
@@ -471,13 +440,13 @@ Obsidian: <vault>/论文/<项目名>/04-数据/分析命令/
 - [ ] **描述统计含全部控制变量**：企业+省级全部变量，三位小数。不允许只列核心变量
 - [ ] **相关性分析必须出现**：描述统计后、主回归前
 - [ ] **绝对量变量对数化**：fiscal_ratio、GDP、wage 等值域过大变量须 `gen ln_x = ln(x)`
-- [ ] **DID 平行趋势检验**：事件研究法，Stata 因子变量负值需偏移。详见 `references/stata-pitfalls.md`
+- [ ] **DID 平行趋势检验**：事件研究法。**Stata 实现见 `stata-regression/references/graph-templates.md`**。
 - [ ] bacondecomp（staggered DID 时）
 - [ ] 安慰剂检验（随机置换处理组）
 - [ ] 弱 IV 检验（如用 IV）
 - [ ] 过度识别检验（如多 IV）
 
-> 📋 完整表格格式规范见 `references/empirical-table-format-spec.md`。Stata 陷阱速查见 `references/stata-pitfalls.md`。**CSMAR 数据合并陷阱速查见 `references/csmar-data-pitfalls.md`**（Stkcd类型、变量命名、collapse字符串等6条）。机制检验方法论见 `references/mechanism-testing-methodology.md`。**机制探索协议见 `references/mechanism-exploration-protocol.md`**（探索顺序、固定特征检测、死路记录）。**PDF表格提取方法见 `references/pdf-extraction-workflow.md`**。**省级大数据局数据来源见 `references/data-sourcing-province-bureaus.md`**。
+> 📋 完整表格格式规范见 `references/empirical-table-format-spec.md`。**Stata 编码规范、出图标准、表格格式、计量检查清单** → 加载 `stata-regression` 技能。CSMAR 数据合并陷阱速查见 `references/csmar-data-pitfalls.md`。机制检验方法论见 `references/mechanism-testing-methodology.md`。**机制探索协议见 `references/mechanism-exploration-protocol.md`**（探索顺序、固定特征检测、死路记录）。**PDF表格提取方法见 `references/pdf-extraction-workflow.md`**。**省级大数据局数据来源见 `references/data-sourcing-province-bureaus.md`**。
 
 产出：
 - 分析命令/master_analysis.do + log 文件 + CSV 表格
@@ -511,7 +480,7 @@ Obsidian: <vault>/论文/<项目名>/04-数据/分析命令/
 - 新增了 treat_score1 但理论推演里没有对应假设 → 补充 H1d
 - V2 移入稳健性但研究计划仍写「主回归 V1+V2 双轨」
 
-> 📋 完整 Stata 陷阱与修复方案见 `references/stata-pitfalls.md`（17条）。机制检验方法论见 `references/mechanism-testing-methodology.md`。多期 DID 平行趋势三陷阱见 `references/stata-pitfalls.md`。实证探索策略与常见死路见 `references/empirical-exploration-patterns.md`（机制检验顺序、处理强度连续得分 vs 二元比较、研发操纵连续指标）。
+> **Stata 编码规范、出图标准、表格格式、计量检查清单** → 加载 `stata-regression` 技能。机制检验方法论见 `references/mechanism-testing-methodology.md`。实证探索策略与常见死路见 `references/empirical-exploration-patterns.md`（机制检验顺序、处理强度连续得分 vs 二元比较、研发操纵连续指标）。
 
 ---
 
@@ -610,22 +579,16 @@ DV 有多个度量版本时，**V1 做主回归，V2 做稳健性**。不要 V1+
 在动笔写正文之前，必须先把所有实证表格从 CSV 转为 markdown 写入 `05-实证/主回归结果.md`：
 
 1. 确认 `分析命令/` 下所有 CSV 已生成且 log 正常关闭
-2. 用 Python 逐表读取 CSV → 去 esttab 格式标记（`=""`）→ 写 markdown pipe table
+2. 运行 `esttab2pipe.py`（位于 `stata-regression/scripts/esttab2pipe.py`）将 CSV 转为 markdown pipe table
 3. 写入 `05-实证/主回归结果.md`，每张表含完整系数+标准误+表注
 4. **绝不省略控制变量**：表必须有 N 列控制变量系数行，不可用 ✓ 缩写
 5. 同步 do 文件到 Obsidian `04-数据/分析命令/`，并同步到本地工作文件夹
 
 > ⚠️ **Obsidian 文档重构规则**：修改 `05-实证/主回归结果.md` 时，**保留全部详细系数表，仅删除被移除的列/行**。禁止将 13 张详细系数表缩为摘要段落——用户需要的是可以直接复制到论文草稿的完整系数，不是节约版面的概述。典型错误：删除 V2 列后把整张表切成「完整系数见CSV」。正确做法：删掉 V2 所在列的所有数据行，V1 的每个系数和 t 值一个不漏。重写前务必确认新文件的总行数不少于旧文件（除非删了大量列）。
 
-> ⚠️ **do 文件修改铁律**：
-> 1. 修改 do 文件时**禁止**用 `read_file` + `write_file`
-> 2. **先跑再改**：写临时 do → Stata 验证结果 → 用户确认 → 再用 patch 写入正式文件
-> 3. **改 do 必改 Obsidian**：每次改完必须同步更新 `05-实证/主回归结果.md` 和 `04-数据/分析命令/README.md`，并 cp 到本地文件夹
-> 4. **重写优于逐段 patch**：改动 > 3 段时直接 `write_file` 新版本，避免累积 patch 残留
->
-> ⚠️ **先验证再写入**：对 do 文件做任何改动前，先写临时 do 文件跑一遍检验结果。用户确认结果可行后，再用 patch 写入正式文件。不要猜测结果、不要先改再看——结果不达预期会导致多次回滚。
->
-> ⚠️ **改 do 必改 Obsidian**：每次修改 do 文件后，必须同步更新 Obsidian 中的 `05-实证/主回归结果.md`（新增/删除/重编号表格）和 `04-数据/分析命令/README.md`（文件索引），并 cp 到本地工作文件夹。三处不一致会导致跨会话混乱。
+> ⚠️ **do 文件修改铁律**：**Do 文件编码规范（version/header/esttab/logging/禁止模式）→ 加载 `stata-regression/references/do-file-standards.md`。** 以下仅保留论文层面的规则：
+> 1. 先验证再写入：对 do 文件做任何改动前，先写临时 do 文件跑一遍检验结果。用户确认结果可行后，再用 patch 写入正式文件。
+> 2. 改 do 必改 Obsidian：每次修改 do 文件后，必须同步更新 Obsidian 中的 `05-实证/主回归结果.md`（新增/删除/重编号表格）和 `04-数据/分析命令/README.md`（文件索引），并 cp 到本地工作文件夹。三处不一致会导致跨会话混乱。
 
 ### 6.1-6.4 写作顺序
 1. **研究设计 + 实证结果**（先写最硬的部分）
