@@ -8,7 +8,7 @@
 | 阶段 | 内容 | 产出 |
 |------|------|------|
 | **0 — 选题设计** | 文献全景扫描 → Edmans 护栏过滤 → 可行性评估 | `01-选题/研究计划.md` |
-| **1 — 文献检索与综述** | 中文文献（CNKI/CSSCI）+ 英文文献 → Zotero 精读 → 主题综述 | `02-文献/文献综述.md` |
+| **1 — 文献检索与综述** | **中文文献**：[Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill)（CNKI RSS + CNKI 浏览器搜索 + NCPSSD API 三通道）/ **英文文献**：OpenAlex + Semantic Scholar → Zotero 精读 → 主题综述 | `02-文献/文献综述.md` |
 | **2 — 理论分析与假设** | 制度背景 → 理论推演 → 竞争性解释 | `03-理论/理论推演.md` |
 | **3 — 研究设计** | 识别策略审计 → 变量构造方案 | `04-数据/变量定义.md` |
 | **4 — 数据构建** | Stata do 文件 → 清洗 → merge → 描述统计 | do 文件 + 数据报告 |
@@ -16,13 +16,22 @@
 | **6 — 论文写作** | 章节生成 → 润色 | 初稿 |
 | **7 — 打磨与投稿** | 5 阶段打磨流水线 → 期刊匹配 | 终稿 + 投稿清单 |
 
-## Stata 回归工作流
+## 配套技能
 
-本技能在阶段 4（数据构建）和阶段 5（实证分析）中涉及的所有 Stata do 文件编写、出图、出表、质量检查，**已委托给专用技能 [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)**。
+本技能在各阶段委托了专用技能。使用时建议同时加载：
 
-使用时请同时加载两个技能：
-- `paper-workflow-skill` → 负责论文逻辑（做什么、按什么顺序、决策门怎么过）
-- `stata-regression-skill` → 负责 Stata 技术细节（do 文件怎么写得规范、图怎么出才专业、表怎么出才能投稿）
+| 阶段 | 技能 | 负责内容 | GitHub |
+|------|------|----------|--------|
+| **1 — 文献检索** | `Chinese-Literature-Skill` | 中文文献三通道采集（CNKI RSS + 浏览器搜索 + NCPSSD API） | [链接](https://github.com/MartyYao/Chinese-Literature-Skill) |
+| **4-5 — Stata 实证** | `Stata-Regression-Skill` | Do 文件模板、回归、出图、出表、计量检查 | [链接](https://github.com/MartyYao/Stata-Regression-skill) |
+
+paper-workflow 本身只负责论文层面的逻辑决策：
+- 8 阶段流程编排
+- V1/V2 主次策略
+- 机制检验三步法协议
+- 处理强度连续得分策略
+- 组件决策门规则
+- Obsidian 同步协议
 
 ## v0.1.2 更新说明
 
@@ -86,13 +95,14 @@ paper-workflow-skill/
 
 ## 依赖
 
+- [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill) — 阶段 1 中文文献采集
 - [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)（v0.1.0+）— 阶段 4-5 的 Stata 技术底层
 - Stata 18+（或 17，`reghdfe` 等包需安装）
 - Python 3.10+（pandas, numpy, scipy, matplotlib, openpyxl）
 
 ## 致谢
 
-本技能的方法论框架借鉴了 AERS（Applied Econometric Research Skills）生态系统的相关工作流设计。Stata 技术实现委托给独立的 [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)。
+本技能的方法论框架借鉴了 AERS（Applied Econometric Research Skills）生态系统的相关工作流设计。中文文献采集委托给 [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill)，Stata 技术实现委托给 [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)。
 
 ## 许可证
 
