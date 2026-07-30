@@ -24,6 +24,7 @@
 |------|------|----------|--------|
 | **1 — 文献检索** | `Chinese-Literature-Skill` | 中文文献三通道采集（CNKI RSS + 浏览器搜索 + NCPSSD API） | [链接](https://github.com/MartyYao/Chinese-Literature-Skill) |
 | **4-5 — Stata 实证** | `Stata-Regression-Skill` | Do 文件模板、回归、出图、出表、计量检查 | [链接](https://github.com/MartyYao/Stata-Regression-skill) |
+| **5 — 实证排查** | `Research-Media-Skill` | 遇到平行趋势失败/不显著等实证问题时，搜索经管之家等中文论坛获取实操方案 | [链接](https://github.com/MartyYao/research-media-skill) |
 
 paper-workflow 本身只负责论文层面的逻辑决策：
 - 8 阶段流程编排
@@ -32,6 +33,14 @@ paper-workflow 本身只负责论文层面的逻辑决策：
 - 处理强度连续得分策略
 - 组件决策门规则
 - Obsidian 同步协议
+
+## v0.1.3 更新说明
+
+- 集成 `Research-Media-Skill`：遇到实证问题（平行趋势失败、回归不显著等）优先搜索经管之家等论坛获取实操方案，避免仅凭模型知识回答
+- 决策门 B 平行趋势失败时先搜论坛再回退
+- 阶段 5.1 新增实证问题溯源规则，检索结论记入仪表盘迭代记录
+- 修复 5.1 标题语义错位（「执行前」→「执行规范」）
+- 修复 `agent-memory` 引用为 `obsidian-memory-scan`
 
 ## v0.1.2 更新说明
 
@@ -97,6 +106,7 @@ paper-workflow-skill/
 
 - [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill) — 阶段 1 中文文献采集
 - [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)（v0.1.0+）— 阶段 4-5 的 Stata 技术底层
+- [Research-Media-Skill](https://github.com/MartyYao/research-media-skill)（v0.1.0+）— 阶段 5 实证问题排查（中文论坛搜索）
 - Stata 18+（或 17，`reghdfe` 等包需安装）
 - Python 3.10+（pandas, numpy, scipy, matplotlib, openpyxl）
 

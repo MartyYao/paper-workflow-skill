@@ -6,9 +6,11 @@ This repository is an 8-stage empirical paper writing orchestrator for finance/a
 
 0 — Topic design → 1 — Literature review → 2 — Theory & hypotheses → 3 — Research design → 4 — Data construction → 5 — Empirical analysis → 6 — Writing → 7 — Polish & submit
 
-## Companion Skill
+## Companion Skills
 
 Stata do-file writing, graph production, table formatting, and econometric quality checks are handled by the **Stata-Regression-skill** (https://github.com/MartyYao/Stata-Regression-skill). Load both skills when entering Stage 4 or Stage 5.
+
+When encountering unexpected empirical results (parallel trends failure, insignificant coefficients, wrong sign), first load **Research-Media-Skill** (https://github.com/MartyYao/research-media-skill) to search Chinese academic forums for practical solutions before adjusting the model.
 
 ## Entry Point
 
