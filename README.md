@@ -103,9 +103,9 @@ paper-workflow-skill/
 
 ## 依赖
 
-- [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill) — 阶段 1 中文文献采集
+- [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill)（v0.1.1+）— 阶段 1 中文文献采集
 - [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)（v0.2.2+）— 阶段 4-5 的 Stata 技术底层
-- [Research-Media-Skill](https://github.com/MartyYao/research-media-skill)（v0.1.0+）— 阶段 5 实证问题排查（中文论坛搜索）
+- [Research-Media-Skill](https://github.com/MartyYao/research-media-skill)（v0.1.1+）— 阶段 5 实证问题排查（中文论坛搜索）
 - Stata 18+（或 17，`reghdfe` 等包需安装）
 - Python 3.10+（pandas, numpy, scipy, matplotlib, openpyxl）
 
