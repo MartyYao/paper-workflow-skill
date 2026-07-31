@@ -16,7 +16,7 @@
 | 2 — Theory | Institutional background → theoretical deduction → H1-H3 |
 | 3 — Research design | ID strategy audit → variable construction plan |
 | 4 — Data (Stata) | **Load Stata-Regression-skill** → do-file template → clean → construct |
-| 5 — Empirical (Stata) | **Load Stata-Regression-skill** → regressions → graphs → tables → decision gate |
+| 5 — Empirical (Stata) | **Load Stata-Regression-skill** → regressions → graphs → tables → decision gate. Unexpected results → **load Research-Discovery-skill** (diagnose → decide → archive F-xxx in Obsidian 研究发现/) |
 | 6 — Writing | Research design first → results → theory → intro → conclusion |
 | 7 — Polish | 5-stage pipeline → journal matching |
 
