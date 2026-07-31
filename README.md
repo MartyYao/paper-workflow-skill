@@ -25,6 +25,7 @@
 | **1 — 文献检索** | `Chinese-Literature-Skill` | 中文文献三通道采集（CNKI RSS + 浏览器搜索 + NCPSSD API） | [链接](https://github.com/MartyYao/Chinese-Literature-Skill) |
 | **4-5 — Stata 实证** | `Stata-Regression-Skill` | Do 文件模板、回归、出图、出表、计量检查 | [链接](https://github.com/MartyYao/Stata-Regression-skill) |
 | **5 — 实证排查** | `Research-Media-Skill` | 遇到平行趋势失败/不显著等实证问题时，搜索经管之家等中文论坛获取实操方案 | [链接](https://github.com/MartyYao/research-media-skill) |
+| **5 — 研究发现** | `Research-Discovery-Skill` | 实证结果与假设不符时的系统化处理：冻结结果→分层诊断→差距分析→决策路由→沉淀，写入 Obsidian 研究发现/ | [链接](https://github.com/MartyYao/research-discovery-skill) |
 
 paper-workflow 本身只负责论文层面的逻辑决策：
 - 8 阶段流程编排
@@ -32,6 +33,14 @@ paper-workflow 本身只负责论文层面的逻辑决策：
 - 处理强度连续得分策略
 - 组件决策门规则
 - Obsidian 同步协议
+
+## v0.2.0 更新说明
+
+- **Obsidian 目录重构**：母文件夹 `论文/` 更名 `研究/`，每个项目拆分为 `研究发现/`（research-discovery 空间）与 `论文写作/`（原 paper-workflow 结构整体平移），两个目录通过 wiki-link 双向索引（发现文件「触发」段链接论文侧来源，「决策与影响」段链接被修改文件；论文侧修改处追加反向标注）
+- 新增配套技能 `Research-Discovery-Skill`：实证异常结果的六步处理流程（冻结结果 → 分层诊断 → 差距分析 → 机制探索 → 决策路由 → 沉淀）
+- 实证问题溯源顺序调整：先加载 research-discovery 分层诊断（数据层/方法层/理论层），定位到方法层需要外部实操方案时再加载 research-media-skill 搜论坛
+- 迭代记录「意外发现」字段升级：意外结果必须创建 `研究发现/01-发现/F-xxx.md`
+- 阶段 5→2 回写新增触发行与检查项：假设被实证修正时，理论推演.md 对应假设处追加反向标注
 
 ## v0.1.3 更新说明
 
@@ -106,6 +115,7 @@ paper-workflow-skill/
 - [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill)（v0.1.1+）— 阶段 1 中文文献采集
 - [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)（v0.2.2+）— 阶段 4-5 的 Stata 技术底层
 - [Research-Media-Skill](https://github.com/MartyYao/research-media-skill)（v0.1.1+）— 阶段 5 实证问题排查（中文论坛搜索）
+- [Research-Discovery-Skill](https://github.com/MartyYao/research-discovery-skill)（v0.1.0+）— 阶段 5 实证发现管理（异常结果诊断与沉淀）
 - Stata 18+（或 17，`reghdfe` 等包需安装）
 - Python 3.10+（pandas, numpy, scipy, matplotlib, openpyxl）
 
