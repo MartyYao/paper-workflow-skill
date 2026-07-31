@@ -25,7 +25,7 @@
 | **1 — 文献检索** | `Chinese-Literature-Skill` | 中文文献三通道采集（CNKI RSS + 浏览器搜索 + NCPSSD API） | [链接](https://github.com/MartyYao/Chinese-Literature-Skill) |
 | **4-5 — Stata 实证** | `Stata-Regression-Skill` | Do 文件模板、回归、出图、出表、计量检查 | [链接](https://github.com/MartyYao/Stata-Regression-skill) |
 | **5 — 实证排查** | `Research-Media-Skill` | 遇到平行趋势失败/不显著等实证问题时，搜索经管之家等中文论坛获取实操方案 | [链接](https://github.com/MartyYao/research-media-skill) |
-| **5 — 研究发现** | `Research-Discovery-Skill` | 实证结果与假设不符时的系统化处理：冻结结果→分层诊断→差距分析→决策路由→沉淀，写入 Obsidian 研究发现/ | [链接](https://github.com/MartyYao/research-discovery-skill) |
+| **5 — 研究发现** | `Research-Discovery-Skill` | 实证结果与假设不符时的系统化处理：冻结结果→分层诊断→差距分析→机制探索→决策路由→沉淀，写入 Obsidian 研究发现/ | [链接](https://github.com/MartyYao/research-discovery-skill) |
 
 paper-workflow 本身只负责论文层面的逻辑决策：
 - 8 阶段流程编排
