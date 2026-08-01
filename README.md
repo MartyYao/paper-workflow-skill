@@ -62,7 +62,7 @@ K3 独立审查（2026-07-31）发现 4×P1 + 7×P2，全部修复：
 
 ## v0.1.2 更新说明
 
-- Stata 回归工作全面委托给 `Stata-Regression-skill`（v0.2.2）
+- Stata 回归工作全面委托给 `Stata-Regression-skill`（v0.2.3）
 - paper-workflow 不再直接包含 Stata 编码规范、出图模板、表格格式和陷阱清单
 - 论文层面的逻辑（V1/V2 策略、机制检验协议、处理强度连续得分、组件决策门）保留在本技能
 
@@ -123,7 +123,7 @@ paper-workflow-skill/
 ## 依赖
 
 - [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill)（v0.1.1+）— 阶段 1 中文文献采集
-- [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)（v0.2.2+）— 阶段 4-5 的 Stata 技术底层
+- [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)（v0.2.3+）— 阶段 4-5 的 Stata 技术底层
 - [Research-Media-Skill](https://github.com/MartyYao/research-media-skill)（v0.1.1+）— 阶段 5 实证问题排查（中文论坛搜索）
 - [Research-Discovery-Skill](https://github.com/MartyYao/research-discovery-skill)（v0.1.0+）— 阶段 5 实证发现管理（异常结果诊断与沉淀）
 - Stata 18+（或 17，`reghdfe` 等包需安装）
