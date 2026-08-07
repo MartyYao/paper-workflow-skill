@@ -133,6 +133,13 @@ paper-workflow-skill/
 
 本技能的方法论框架借鉴了 AERS（Applied Econometric Research Skills）生态系统的相关工作流设计。中文文献采集委托给 [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill)，Stata 技术实现委托给 [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)。
 
+## 版本
+
+- **v0.2.2**（2026-08-07）— 新增 §5.3 实证版本管理协议（强制执行）：Run Tag 运行标记、CSV 命名=正文表号、do-log-CSV-正文四件套绑定、改数字五步闭环、版本切换旧值扫描、数字出处纪律、临时 do 归档、log 强制留存、MAPPING.md、一致性审计——针对实证多次重跑后新旧数据混杂的系统性问题（2026-08-07 全稿一致性审查 12×P0 修复后的定案）
+- **v0.2.1**（2026-07-31）— K3 审查修复：4×P1 + 7×P2
+- **v0.2.0**（2026-07-31）— Obsidian 目录重构 + Research-Discovery 配套技能
+- **v0.1.x**（2026-07）— 初版与迭代：8 阶段全流程 + 14 份参考文档 + 跨 Agent 支持
+
 ## 许可证
 
 MIT
