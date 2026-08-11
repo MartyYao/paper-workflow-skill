@@ -14,7 +14,7 @@
 | **4 — 数据构建** | Stata do 文件 → 清洗 → merge → 描述统计 | do 文件 + 数据报告 |
 | **5 — 实证分析** | 主回归+机制+稳健性+异质性+内生性 → 决策门 | 全部实证表格 |
 | **6 — 论文写作** | 章节生成 → 润色 | 初稿 |
-| **7 — 打磨与投稿** | 5 阶段打磨流水线 → 期刊匹配 | 终稿 + 投稿清单 |
+| **7 — 打磨与投稿** | 5 阶段打磨流水线 → 期刊匹配 → **输出转换（加载 `Journal-Submission-Docx-Skill` 按期刊模板生成投稿版 docx）** | 终稿 + 投稿清单 |
 
 ## 配套技能
 
@@ -26,6 +26,7 @@
 | **4-5 — Stata 实证** | `Stata-Regression-Skill` | Do 文件模板、回归、出图、出表、计量检查 | [链接](https://github.com/MartyYao/Stata-Regression-skill) |
 | **5 — 实证排查** | `Research-Media-Skill` | 遇到平行趋势失败/不显著等实证问题时，搜索经管之家等中文论坛获取实操方案 | [链接](https://github.com/MartyYao/research-media-skill) |
 | **5 — 研究发现** | `Research-Discovery-Skill` | 实证结果与假设不符时的系统化处理：冻结结果→分层诊断→差距分析→机制探索→决策路由→沉淀，写入 Obsidian 研究发现/ | [链接](https://github.com/MartyYao/research-discovery-skill) |
+| **7 — 输出转换** | `Journal-Submission-Docx-Skill` | 生成投稿论文（投稿版/终稿 Word/按《XX》期刊格式）时**必须加载**：13 刊模板库 + python-docx 生成器 + WPS 兼容公式 + 7 项自动验证，输出 `投稿版-<期刊名>.docx` | [链接](https://github.com/MartyYao/journal-submission-docx-skill) |
 
 paper-workflow 本身只负责论文层面的逻辑决策：
 - 8 阶段流程编排
