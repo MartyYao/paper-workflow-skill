@@ -39,18 +39,6 @@ paper-workflow 本身只负责论文层面的逻辑决策：
 - 组件决策门规则
 - Obsidian 同步协议
 
-## v0.3.2 更新说明（2026-08-11）
-
-- **阶段 7 输出转换定案**：生成投稿论文（投稿版/终稿 Word/按《XX》期刊格式）时**必须加载 `journal-submission-docx` 技能**（GitHub: [MartyYao/journal-submission-docx-skill](https://github.com/MartyYao/journal-submission-docx-skill)）——13 刊模板库 + python-docx 生成器 + WPS 兼容公式 + 7 项自动验证，输出 `投稿版-<期刊名>.docx` 至用户工作文件夹
-- 阶段 7 定位与 7.2 期刊匹配补衔接：确定目标期刊后进入 7.3 加载该技能
-- 配套技能表新增 `Journal-Submission-Docx-Skill` 行
-- 兼容性：该技能多 Agent 实测可用（Claude Code / Kimi Code / Codex / Pi）
-
-## v0.3.1 更新说明（2026-08-10）
-
-- **新增 §7.4 审稿意见处置流程**：审稿外包建议（第三方模型交叉审查，建议非强制，意见仍需逐条核实）、P0/P1/P2 分级、逐条核实真伪（数字指控必须 log/CSV 重跑验证，驳回需附证据）、处置决策矩阵、复核闭环（grep 零残留+状态行同步）、响应信结构
-- 沉淀三条教训：外部模型简化推理误判、重跑暴露分组口径错误与论证逻辑缺陷、批量替换作用域失控
-
 ## v0.5.0 更新说明（2026-08-25）
 
 - 新增独立 `research-topic` 技能，承接阶段 0 的双语文献证据、空白识别、创新价值、可行性审计和竞争性解释；
@@ -72,6 +60,18 @@ paper-workflow 本身只负责论文层面的逻辑决策：
 
 - 新增配套技能依赖自检和聚合仓库安装路径。
 - 将论文工作流与 `paper-workflow-bundle` 的安装、版本检查和缺失技能降级运行规则接通。
+
+## v0.3.2 更新说明（2026-08-11）
+
+- **阶段 7 输出转换定案**：生成投稿论文（投稿版/终稿 Word/按《XX》期刊格式）时**必须加载 `journal-submission-docx` 技能**（GitHub: [MartyYao/journal-submission-docx-skill](https://github.com/MartyYao/journal-submission-docx-skill)）——13 刊模板库 + python-docx 生成器 + WPS 兼容公式 + 7 项自动验证，输出 `投稿版-<期刊名>.docx` 至用户工作文件夹
+- 阶段 7 定位与 7.2 期刊匹配补衔接：确定目标期刊后进入 7.3 加载该技能
+- 配套技能表新增 `Journal-Submission-Docx-Skill` 行
+- 兼容性：该技能多 Agent 实测可用（Claude Code / Kimi Code / Codex / Pi）
+
+## v0.3.1 更新说明（2026-08-10）
+
+- **新增 §7.4 审稿意见处置流程**：审稿外包建议（第三方模型交叉审查，建议非强制，意见仍需逐条核实）、P0/P1/P2 分级、逐条核实真伪（数字指控必须 log/CSV 重跑验证，驳回需附证据）、处置决策矩阵、复核闭环（grep 零残留+状态行同步）、响应信结构
+- 沉淀三条教训：外部模型简化推理误判、重跑暴露分组口径错误与论证逻辑缺陷、批量替换作用域失控
 
 ## v0.2.1 修复说明
 
