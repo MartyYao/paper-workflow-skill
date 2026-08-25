@@ -11,7 +11,7 @@
 
 | Phase | Action |
 |-------|--------|
-| 0 — Topic design | Read SKILL.md §0, follow structured dialogue |
+| 0 — Topic design | Load `research-topic` → bilingual evidence search → gap/contribution/feasibility audit → user GO/HOLD/KILL gate |
 | 1 — Literature | Multi-channel search → Zotero → thematic review |
 | 2 — Theory | Institutional background → theoretical deduction → H1-H3 |
 | 3 — Research design | ID strategy audit → variable construction plan |

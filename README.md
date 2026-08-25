@@ -7,7 +7,7 @@
 
 | 阶段 | 内容 | 产出 |
 |------|------|------|
-| **0 — 选题设计** | 文献全景扫描 → Edmans 护栏过滤 → 可行性评估 | `01-选题/研究计划.md` |
+| **0 — 选题设计** | 调度 `research-topic`：中英文证据检索 → 空白与贡献价值 → 可行性/识别审计 → GO/HOLD/KILL | `01-选题/` 全套选题成果物 |
 | **1 — 文献检索与综述** | **中文文献**：[Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill)（CNKI RSS + CNKI 浏览器搜索 + NCPSSD API 三通道）/ **英文文献**：OpenAlex + Semantic Scholar → Zotero 精读 → 主题综述 | `02-文献/文献综述.md` |
 | **2 — 理论分析与假设** | 制度背景 → 理论推演 → 竞争性解释 | `03-理论/理论推演.md` |
 | **3 — 研究设计** | 识别策略审计 → 变量构造方案 | `04-数据/变量定义.md` |
@@ -22,6 +22,7 @@
 
 | 阶段 | 技能 | 负责内容 | GitHub |
 |------|------|----------|--------|
+| **0 — 选题设计** | `research-topic` v0.1.0 | 双语文献证据、研究空白、创新价值、可行性审计、竞争性解释和决策档案 | [链接](https://github.com/MartyYao/research-topic-skill) |
 | **1 — 文献检索** | `Chinese-Literature-Skill` | 中文文献三通道采集（CNKI RSS + 浏览器搜索 + NCPSSD API） | [链接](https://github.com/MartyYao/Chinese-Literature-Skill) |
 | **4-5 — Stata 实证** | `Stata-Regression-Skill` | Do 文件模板、回归、出图、出表、计量检查 | [链接](https://github.com/MartyYao/Stata-Regression-skill) |
 | **5 — 实证排查** | `Research-Media-Skill` | 遇到平行趋势失败/不显著等实证问题时，搜索经管之家等中文论坛获取实操方案 | [链接](https://github.com/MartyYao/research-media-skill) |
@@ -31,6 +32,7 @@
 
 paper-workflow 本身只负责论文层面的逻辑决策：
 - 8 阶段流程编排
+- 阶段 0 的技能调用、成果物检查和用户决策门
 - 机制检验三步法协议
 - 处理强度连续得分策略
 - 组件决策门规则
@@ -47,6 +49,13 @@ paper-workflow 本身只负责论文层面的逻辑决策：
 
 - **新增 §7.4 审稿意见处置流程**：审稿外包建议（第三方模型交叉审查，建议非强制，意见仍需逐条核实）、P0/P1/P2 分级、逐条核实真伪（数字指控必须 log/CSV 重跑验证，驳回需附证据）、处置决策矩阵、复核闭环（grep 零残留+状态行同步）、响应信结构
 - 沉淀三条教训：外部模型简化推理误判、重跑暴露分组口径错误与论证逻辑缺陷、批量替换作用域失控
+
+## v0.5.0 更新说明（2026-08-25）
+
+- 新增独立 `research-topic` 技能，承接阶段 0 的双语文献证据、空白识别、创新价值、可行性审计和竞争性解释；
+- paper-workflow 收缩为中枢调度器，阶段 0 通过成果物契约和 GO/HOLD/KILL 决策门推进；
+- 选题阶段新增检索边界、文献证据台账、空白证据备忘录、创新价值备忘录和可行性审计等成果物。
+- `research-topic` 已作为独立配套仓库发布，版本为 v0.1.0；由 `paper-workflow-bundle` 一并安装。
 
 ## v0.2.1 修复说明
 
@@ -136,10 +145,11 @@ paper-workflow-skill/
 
 ## 依赖
 
+- [research-topic](https://github.com/MartyYao/research-topic-skill)（v0.1.0）— 阶段 0 选题发现与决策门
 - [Chinese-Literature-Skill](https://github.com/MartyYao/Chinese-Literature-Skill)（v0.1.1+）— 阶段 1 中文文献采集
-- [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)（v0.2.3+）— 阶段 4-5 的 Stata 技术底层
-- [Research-Media-Skill](https://github.com/MartyYao/research-media-skill)（v0.1.1+）— 阶段 5 实证问题排查（中文论坛搜索）
-- [Research-Discovery-Skill](https://github.com/MartyYao/research-discovery-skill)（v0.1.0+）— 阶段 5 实证发现管理（异常结果诊断与沉淀）
+- [Stata-Regression-skill](https://github.com/MartyYao/Stata-Regression-skill)（v0.2.5+）— 阶段 4-5 的 Stata 技术底层
+- [Research-Media-Skill](https://github.com/MartyYao/research-media-skill)（v0.1.3+）— 阶段 5 实证问题排查（中文论坛搜索）
+- [Research-Discovery-Skill](https://github.com/MartyYao/research-discovery-skill)（v0.1.1+）— 阶段 5 实证发现管理（异常结果诊断与沉淀）
 - Stata 18+（或 17，`reghdfe` 等包需安装）
 - Python 3.10+（pandas, numpy, scipy, matplotlib, openpyxl）
 
@@ -149,6 +159,8 @@ paper-workflow-skill/
 
 ## 版本
 
+- **v0.5.0**（2026-08-25）— 阶段 0 选题专业能力拆分为独立 `research-topic` 技能；paper-workflow 收缩为中枢调度器、成果物检查和用户决策门。
+- **v0.4.2**（2026-08-13）— 依赖自检安装方式改为从 `paper-workflow-bundle` 下载拷贝，弃用未认证 `hermes skills install`，避免 GitHub API 限额和 registry 同名技能劫持。
 - **v0.4.1**（2026-08-13）— 实证版本可追溯闭环：阶段 5→6 准入审查新增第 4 项「数字对账」（`stata-regression/scripts/verify-numbers.py`，正文表格数字 vs CSV 自动比对，对不上 = 准入失败）；§5.3 强化开新 run 必须走 `rerun.sh new "<tag>"`（归档 + tag 目录 + MAPPING，CSV 禁止写根目录）；修复 esttab2pipe.py 幽灵引用（实际脚本 esttab2html.py）。实测：正文表 5 post -0.7445 vs CSV -0.8004，一次抓出 137 处不一致
 - **v0.3.1**（2026-08-10）— 新增 §7.4 审稿意见处置流程：审稿外包建议（第三方模型交叉审查，建议非强制，意见仍需逐条核实）、P0/P1/P2 分级、逐条核实真伪（数字指控必须 log/CSV 重跑验证，驳回需附证据）、处置决策矩阵、复核闭环（grep 零残留+状态行同步）、响应信结构；沉淀三条教训（外部模型简化推理误判、重跑暴露分组口径错误与论证逻辑缺陷、批量替换作用域失控）
 - **v0.2.2**（2026-08-07）— 新增 §5.3 实证版本管理协议（强制执行）：Run Tag 运行标记、CSV 命名=正文表号、do-log-CSV-正文四件套绑定、改数字五步闭环、版本切换旧值扫描、数字出处纪律、临时 do 归档、log 强制留存、MAPPING.md、一致性审计——针对实证多次重跑后新旧数据混杂的系统性问题（2026-08-07 全稿一致性审查 12×P0 修复后的定案）

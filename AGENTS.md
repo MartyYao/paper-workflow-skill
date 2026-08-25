@@ -8,6 +8,8 @@ This repository is an 8-stage empirical paper writing orchestrator for finance/a
 
 ## Companion Skills
 
+Stage 0 topic discovery is handled by the **research-topic** skill (https://github.com/MartyYao/research-topic-skill). It owns bilingual literature-gap evidence, contribution-value review, feasibility/identification audit, competitive predictions, and the GO/HOLD/KILL dossier. `paper-workflow` remains the orchestrator and gatekeeper; do not duplicate Stage 0 methodology here.
+
 Stata do-file writing, graph production, table formatting, and econometric quality checks are handled by the **Stata-Regression-skill** (https://github.com/MartyYao/Stata-Regression-skill). Load both skills when entering Stage 4 or Stage 5.
 
 When encountering unexpected empirical results (parallel trends failure, insignificant coefficients, wrong sign), first load **Research-Discovery-skill** (https://github.com/MartyYao/research-discovery-skill) for systematic diagnosis (freeze evidence → layered diagnosis: data/method/theory → gap analysis → decision routing → documentation in Obsidian `研究发现/`). Only when the diagnosis lands on the method layer and external practical solutions are needed, load **Research-Media-Skill** (https://github.com/MartyYao/research-media-skill) to search Chinese academic forums before adjusting the model.
